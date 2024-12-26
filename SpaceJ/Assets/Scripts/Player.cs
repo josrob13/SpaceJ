@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     public Marker marker;
     public int score = 0;
 
+    // Heart Container
+    public HeartContainer heartContainer;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -75,5 +78,6 @@ public class Player : MonoBehaviour
     public void TakeDamage(float damage)
     {
         this.health -= damage;
+        heartContainer.BrokeHeart();
     }
 }

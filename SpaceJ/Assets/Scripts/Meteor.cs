@@ -30,7 +30,7 @@ public class Meteor : MonoBehaviour
             // Reducir vida de la nave
             Player player = collider.gameObject.GetComponent<Player>();
             if (player != null)
-                player.TakeDamage(1f); // Método para reducir vida
+                player.TakeDamage(1f);
         } else if (collider.CompareTag("Limit"))
         {
             Destroy(gameObject);
