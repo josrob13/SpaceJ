@@ -1,5 +1,7 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
@@ -24,11 +26,15 @@ public class Player : MonoBehaviour
     // Heart Container
     public HeartContainer heartContainer;
 
+    // For the game over
+    public GameOverScreen gameOverScreen;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         marker.updateScore(score);
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -39,11 +45,11 @@ public class Player : MonoBehaviour
             Fire();
         }
 
-        if (Input.GetKey("right")) {
+        if (Input.GetKey("right") && health > 0) {
             if (transform.position.x < 7)
                 transform.Translate(Vector3.right * speed * Time.deltaTime);
         }
-        else if (Input.GetKey("left")) {
+        else if (Input.GetKey("left") && health > 0) {
             if (transform.position.x > -7)
                 transform.Translate(-Vector3.right * speed * Time.deltaTime);
         }
@@ -77,7 +83,23 @@ public class Player : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        this.health -= damage;
+        health -= damage;
         heartContainer.BrokeHeart();
+        if (health <= 0)
+            EndGame();
+    }
+
+    private void EndGame()
+    {
+        Debug.Log("Se ha terminado la partida, has perdido.");
+        canShoot = false;
+        StartCoroutine(BeforeEnds());
+    }
+
+    private IEnumerator BeforeEnds()
+    {
+        yield return new WaitForSeconds(1f);
+        Time.timeScale = 0;
+        gameOverScreen.Setup();
     }
 }

@@ -20,21 +20,28 @@ public class HeartContainer : MonoBehaviour
 
     public void BrokeHeart()
     {
-        GameObject heartRef = hearts[numHearts - 1];
+        if (numHearts > 0)
+        {
+            GameObject heartRef = hearts[numHearts - 1];
 
-        // Instanciar el VFX como hijo del Canvas
-        GameObject vfx = Instantiate(hitVFX, this.transform);
-        vfx.transform.localPosition = heartRef.transform.localPosition;
+            // Instanciar el VFX como hijo del Canvas
+            GameObject vfx = Instantiate(hitVFX, this.transform);
+            vfx.transform.localPosition = heartRef.transform.localPosition;
 
-        Debug.Log($"Heart Position: {heartRef.transform.position}");
-        Debug.Log($"Heart Local Position: {heartRef.transform.localPosition}");
-        Debug.Log($"---------------------------------");
-        Debug.Log($"VFX POSITION LOCAL: {vfx.transform.localPosition}");
+            Debug.Log($"Heart Position: {heartRef.transform.position}");
+            Debug.Log($"Heart Local Position: {heartRef.transform.localPosition}");
+            Debug.Log($"---------------------------------");
+            Debug.Log($"VFX POSITION LOCAL: {vfx.transform.localPosition}");
 
-        Destroy(vfx, 1f);
-        Destroy(hearts[numHearts - 1]);
-        hearts.RemoveAt(numHearts - 1);
-        numHearts--;
+            Destroy(vfx, 1f);
+            Destroy(hearts[numHearts - 1]);
+            hearts.RemoveAt(numHearts - 1);
+            numHearts--;
+        }
+        else
+        {
+            Debug.Log("No hay vidas suficientes.");
+        }
     }
 
     public void AddHeart()
